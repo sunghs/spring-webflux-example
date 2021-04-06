@@ -14,7 +14,7 @@ public class SampleService {
     public Mono<String> test() {
         try {
             log.info("sleep start {}", LocalDateTime.now());
-            Thread.sleep(5000);
+            Thread.sleep(3000);
         } catch (Exception e) {
             log.error("error", e);
         }
