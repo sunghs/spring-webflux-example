@@ -1,5 +1,6 @@
 package sunghs.springwebfluxexample;
 
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
@@ -12,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.test.context.TestConstructor.AutowireMode;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.reactive.function.client.WebClient;
 import sunghs.springwebfluxexample.handler.SampleHandler;
 import sunghs.springwebfluxexample.router.SampleRouter;
 import sunghs.springwebfluxexample.service.SampleService;
@@ -31,20 +33,35 @@ public class SampleTest {
 
     private final WebTestClient webTestClient;
 
+    private final WebClient webClient = WebClient.builder().baseUrl("http://localhost:8080")
+        .build();
+
     @BeforeEach
     public void beforeEach() {
 
     }
 
     @Test
-    public void test() {
-        for(int i = 0; i < 10; i ++) {
-            webTestClient.post()
-                .uri("/test")
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody(String.class);
+    public void webClientTest() {
+        for (int i = 0; i < 10; i++) {
+            log.info("set : {}", LocalDateTime.now());
+
+            webClient.post()
+                .uri("/post")
+                .retrieve()
+                .bodyToMono(String.class)
+                .log()
+                .subscribe(s -> log.info("{}, {}", LocalDateTime.now(), s));
         }
+    }
+
+    @Test
+    public void webTestClientTest() {
+        webTestClient.post()
+            .uri("/post")
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(String.class);
     }
 
     @AfterEach
