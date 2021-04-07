@@ -2,9 +2,10 @@ package sunghs.springwebfluxexample;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class SpringWebfluxExampleApplication {
+public class SpringWebfluxExampleApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(SpringWebfluxExampleApplication.class, args);
