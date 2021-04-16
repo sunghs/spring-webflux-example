@@ -2,13 +2,13 @@ package sunghs.springwebfluxexample.config;
 
 import java.sql.SQLException;
 import org.h2.tools.Server;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 @Profile("local")
 public class H2Config {
 
