@@ -8,6 +8,7 @@ import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import sunghs.springwebfluxexample.handler.ExternalBlockingHandler;
 import sunghs.springwebfluxexample.handler.Sample2Handler;
 import sunghs.springwebfluxexample.handler.SampleHandler;
 
@@ -25,5 +26,10 @@ public class SampleRouter implements WebFluxConfigurer {
     @Bean
     public RouterFunction<ServerResponse> routerFunction2(Sample2Handler sample2Handler) {
         return RouterFunctions.route(RequestPredicates.GET("/test2").and(RequestPredicates.contentType(MediaType.ALL)), sample2Handler::test2);
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> routerFunction3(ExternalBlockingHandler externalBlockingHandler) {
+        return RouterFunctions.route(RequestPredicates.GET("/ext").and(RequestPredicates.contentType(MediaType.ALL)), externalBlockingHandler::test);
     }
 }

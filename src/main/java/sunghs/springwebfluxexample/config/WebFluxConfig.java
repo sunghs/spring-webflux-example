@@ -37,4 +37,16 @@ public class WebFluxConfig {
             .clientConnector(new ReactorClientHttpConnector(HttpClient.create()))
             .build();
     }
+
+    @Bean
+    public WebClient webMessageClient() {
+        return WebClient.builder()
+            .baseUrl("https://???")
+            .filter(ExchangeFilterFunction.ofRequestProcessor(clientRequest -> {
+                log.info("request method : {}, uri : {}", clientRequest.method(), clientRequest.url().getPath());
+                return Mono.just(clientRequest);
+            }))
+            .clientConnector(new ReactorClientHttpConnector(HttpClient.create()))
+            .build();
+    }
 }
