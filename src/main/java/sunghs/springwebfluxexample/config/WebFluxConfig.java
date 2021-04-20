@@ -15,7 +15,7 @@ import sunghs.springwebfluxexample.model.Dto;
 public class WebFluxConfig {
 
     @Bean
-    public WebClient webClient() {
+    public WebClient webLoggingClient() {
         return WebClient.builder()
             .baseUrl("http://localhost:8080")
             .clientConnector(new ReactorClientHttpConnector(HttpClient.create()))
@@ -27,6 +27,14 @@ public class WebFluxConfig {
                 log.info("response : {}", clientResponse.bodyToFlux(Dto.class).toString());
                 return Mono.just(clientResponse);
             }))
+            .build();
+    }
+
+    @Bean
+    public WebClient webClient() {
+        return WebClient.builder()
+            .baseUrl("http://localhost:8080")
+            .clientConnector(new ReactorClientHttpConnector(HttpClient.create()))
             .build();
     }
 }

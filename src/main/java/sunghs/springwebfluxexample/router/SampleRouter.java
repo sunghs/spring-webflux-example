@@ -18,6 +18,7 @@ public class SampleRouter implements WebFluxConfigurer {
     public RouterFunction<ServerResponse> routerFunction1(SampleHandler sampleHandler) {
         return RouterFunctions.route(RequestPredicates.GET("/get").and(RequestPredicates.contentType(MediaType.ALL)), sampleHandler::get)
             .andRoute(RequestPredicates.POST("/post").and(RequestPredicates.contentType(MediaType.ALL)), sampleHandler::post)
+            .andRoute(RequestPredicates.POST("/postDoParallel").and(RequestPredicates.contentType(MediaType.ALL)), sampleHandler::postDoParallel)
             .andRoute(RequestPredicates.GET("/test").and(RequestPredicates.contentType(MediaType.ALL)), sampleHandler::test);
     }
 
