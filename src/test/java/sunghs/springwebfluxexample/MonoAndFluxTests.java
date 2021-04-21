@@ -2,6 +2,7 @@ package sunghs.springwebfluxexample;
 
 import java.nio.charset.StandardCharsets;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -20,6 +21,7 @@ class MonoAndFluxTests {
     }
 
     @Test
+    @DisplayName("파일을 한번 읽어본다.")
     void fluxTest() {
         Flux<DataBuffer> data = DataBufferUtils.read(
             new DefaultResourceLoader().getResource("flux-data.txt"),
