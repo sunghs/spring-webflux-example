@@ -1,8 +1,10 @@
 package sunghs.springwebfluxexample.handler;
 
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -20,12 +22,11 @@ public class Sample2Handler {
     public Mono<ServerResponse> test2(ServerRequest serverRequest) {
         // 실제 데이터는 Mono 이지만 Flux 로 받음
         Flux<Dto> result1 = webClient.get().uri("/get").retrieve().bodyToFlux(Dto.class);
-        // 실제 데이터는 Flux 이지만 Mono 로 받음 ==> Json START_ARRAY ([) 타입을 찾지 못해 파싱 에러가 발생
-        Mono<Dto> result2 = webClient.post().uri("/postDoParallel").retrieve().bodyToMono(Dto.class);
+        Flux<Dto> result2 = webClient.post().uri("/postDoParallel").retrieve().bodyToFlux(Dto.class);
 
         result1.subscribe(dto -> log.info("result1 : {}", dto.toString()));
         result2.subscribe(dto -> log.info("result2 : {}", dto.toString()));
 
-        return ServerResponse.ok().build();
+        return ServerResponse.ok().body(BodyInserters.fromValue(LocalDateTime.now().toString()));
     }
 }

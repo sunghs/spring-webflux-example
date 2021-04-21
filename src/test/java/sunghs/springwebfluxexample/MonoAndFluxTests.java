@@ -1,7 +1,10 @@
 package sunghs.springwebfluxexample;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -18,6 +21,15 @@ class MonoAndFluxTests {
     @Test
     void monoTest() {
         Mono.just("a").subscribe(s -> log.info("mono data : {}", s));
+    }
+
+    @Test
+    void fluxConvertTest() {
+        Flux<Integer> flux = Flux.just(1, 2, 3, 4, 5);
+
+        Assertions.assertEquals(5, Objects.requireNonNull(flux.collectList().block()).size());
+
+        Objects.requireNonNull(flux.collectMap(integer -> integer).block(Duration.ofMillis(1000))).forEach(Assertions::assertEquals);
     }
 
     @Test
