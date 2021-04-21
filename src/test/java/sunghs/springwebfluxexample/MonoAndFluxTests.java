@@ -9,6 +9,7 @@ import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 @Slf4j
 class MonoAndFluxTests {
@@ -26,5 +27,28 @@ class MonoAndFluxTests {
             64);
 
         data.subscribe(dataBuffer -> log.info(dataBuffer.toString(StandardCharsets.UTF_8)));
+    }
+
+    @Test
+    void stepVerifierTest() {
+        StepVerifier.create(Flux.just("a", "b", "c", "d"))
+            .expectSubscription()
+            .expectNext("a")
+            .expectNext("b")
+            .expectNext("c")
+            .expectNext("d")
+            .verifyComplete();
+    }
+
+    @Test
+    void rangeStepVerifierTest() {
+        StepVerifier.create(Flux.range(1, 100))
+            .expectSubscription()
+            .expectNext(1)
+            .expectNextCount(50) // 50개의 스트림을 건너뛴다
+            .expectNext(52)
+            .expectNextCount(47)
+            .expectNext(100)
+            .verifyComplete();
     }
 }

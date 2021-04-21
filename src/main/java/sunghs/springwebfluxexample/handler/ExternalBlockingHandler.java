@@ -16,11 +16,13 @@ import sunghs.springwebfluxexample.model.TestRequest;
 @RequiredArgsConstructor
 public class ExternalBlockingHandler {
 
+    private static final String EXTERNAL_URI = "input-your-uri";
+
     private final WebClient webMessageClient;
 
     public Mono<ServerResponse> test(ServerRequest serverRequest) {
         for (int i = 0; i < 20; i ++) {
-            webMessageClient.post().uri("insert your uri")
+            webMessageClient.post().uri(EXTERNAL_URI)
                 .body(BodyInserters.fromValue(new TestRequest(i)))
                 .retrieve()
                 .bodyToFlux(String.class).subscribe(this::getReturnStatus);

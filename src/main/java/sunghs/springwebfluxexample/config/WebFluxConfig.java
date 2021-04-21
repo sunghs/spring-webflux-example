@@ -14,6 +14,7 @@ import sunghs.springwebfluxexample.model.Dto;
 @Slf4j
 public class WebFluxConfig {
 
+    private static final String EXTERNAL_URL = "https://input-your-url";
     @Bean
     public WebClient webLoggingClient() {
         return WebClient.builder()
@@ -41,7 +42,7 @@ public class WebFluxConfig {
     @Bean
     public WebClient webMessageClient() {
         return WebClient.builder()
-            .baseUrl("https://???")
+            .baseUrl(EXTERNAL_URL)
             .filter(ExchangeFilterFunction.ofRequestProcessor(clientRequest -> {
                 log.info("request method : {}, uri : {}", clientRequest.method(), clientRequest.url().getPath());
                 return Mono.just(clientRequest);
