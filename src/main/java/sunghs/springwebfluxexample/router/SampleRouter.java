@@ -11,6 +11,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import sunghs.springwebfluxexample.handler.ExternalBlockingHandler;
 import sunghs.springwebfluxexample.handler.Sample2Handler;
 import sunghs.springwebfluxexample.handler.SampleHandler;
+import sunghs.springwebfluxexample.handler.StreamingHandler;
 
 @Configuration
 public class SampleRouter implements WebFluxConfigurer {
@@ -31,5 +32,11 @@ public class SampleRouter implements WebFluxConfigurer {
     @Bean
     public RouterFunction<ServerResponse> routerFunction3(ExternalBlockingHandler externalBlockingHandler) {
         return RouterFunctions.route(RequestPredicates.GET("/ext").and(RequestPredicates.contentType(MediaType.ALL)), externalBlockingHandler::test);
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> routerFunction4(StreamingHandler streamingHandler) {
+        return RouterFunctions.route(RequestPredicates.GET("/streaming").and(RequestPredicates.contentType(MediaType.ALL)), streamingHandler::streaming)
+            .andRoute(RequestPredicates.GET("/streaming2").and(RequestPredicates.contentType(MediaType.ALL)), streamingHandler::streamingFile);
     }
 }
