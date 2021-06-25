@@ -35,7 +35,7 @@ public class ParallelHandler {
 
         CountDownLatch countDownLatch = new CountDownLatch(taskList.size());
 
-        // 10만개의 데이터를 Flux로 만들고, 병렬처리
+        // 1만개의 데이터를 Flux로 만들고, 병렬처리
         // 여기서 할거 수행
         Flux.fromIterable(taskList)
             // parallelism 파라미터는 동시 수행 rail 의 수
